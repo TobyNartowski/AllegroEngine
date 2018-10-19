@@ -12,10 +12,10 @@ void Logger::logSuccess(std::string msg) {
 }
 
 void Logger::logNormal(std::string msg) {
-	std::cout << " - " + msg << std::endl;
+	std::cout << " * " + msg << std::endl;
 }
 
 
 void Logger::logError(std::string msg) {
-	std::cout << LOGGER_FAILURE << "[-] " + msg << LOGGER_FAILURE << std::endl;
+	std::cout << LOGGER_FAILURE << "[-] " + msg << LOGGER_NORMAL << std::endl;
 }

@@ -1,12 +1,22 @@
 #include "Engine.hpp"
 
-#include <iostream>
-#include <fstream>
+#include <allegro5/allegro.h>
 
 int main()
 {
-	Engine::getEngine().initAllegro(ENGINE_KEYBOARD_INIT | ENGINE_MOUSE_INIT);
+	if (Engine::getEngine().initAllegro(ENGINE_KEYBOARD_INIT | ENGINE_MOUSE_INIT, ENGINE_RES_LARGE, true)) {
+		return EXIT_FAILURE;
+	}
 
+	ENGINE_LOOP {
+		if (Engine::getEngine().readyToClose()) {
+			break;
+		}
 
-	return 0;
+		Engine::getEngine().cleanAndFlip();
+	}
+
+	Engine::getEngine().destroyEngine();
+
+	return EXIT_SUCCESS;
 }

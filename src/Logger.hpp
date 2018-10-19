@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define LOGGER_FAILURE "\033[1;31m"
-#define LOGGER_NORMAL "\033"
+#define LOGGER_NORMAL "\e[0m"
 #define LOGGER_SUCCESS "\033[1;32m"
 
 class Logger {
