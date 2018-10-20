@@ -1,6 +1,6 @@
 #include "Engine.hpp"
 
-#include <allegro5/allegro.h>
+#include <iostream>
 
 int main()
 {

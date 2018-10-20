@@ -102,6 +102,7 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 	al_register_event_source(eventQueue, al_get_timer_event_source(timer));
+	al_register_event_source(eventQueue, al_get_keyboard_event_source());
 
 	Logger::getLogger().logSuccess("Display created properly");
 
@@ -124,8 +125,12 @@ bool Engine::updateFrame() {
 
 	if (event.type == ALLEGRO_EVENT_TIMER) {
 		redrawFrame = true;
-	} else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+	} else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE || getKey() == ALLEGRO_KEY_ESCAPE) {
 		return false;
+	} else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
+		keycodePressed = event.keyboard.keycode;
+	} else if (event.type == ALLEGRO_EVENT_KEY_UP) {
+		keycodePressed = -1;
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
@@ -135,4 +140,8 @@ bool Engine::updateFrame() {
 	}
 
 	return true;
+}
+
+int Engine::getKey() {
+	return keycodePressed;
 }

@@ -34,6 +34,7 @@ private:
 	ALLEGRO_TIMER *timer = NULL;
 
 	bool redrawFrame = true;
+	int keycodePressed;
 public:
 	static Engine& getEngine();
 
@@ -49,4 +50,6 @@ public:
 	
 	void prepareLoop();
 	bool updateFrame();
+
+	int getKey();
 };
