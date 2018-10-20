@@ -1,8 +1,10 @@
 #pragma once
 
 #include <allegro5/allegro.h>
+#include <iostream>
 
-#define ENGINE_LOOP for (;;)
+#define ENGINE_LOOP	Engine::getEngine().prepareLoop();\
+			for (; Engine::getEngine().updateFrame();)
 
 #define ENGINE_NONE		0x0
 #define ENGINE_MOUSE_INIT	0x1
@@ -21,12 +23,17 @@
 #define ENGINE_RES_LARGE_X	1024
 #define ENGINE_RES_LARGE_Y	768
 
+const float FPS = 60;
+
 class Engine {
 private:
 	Engine();
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
+	ALLEGRO_TIMER *timer = NULL;
+
+	bool redrawFrame = true;
 public:
 	static Engine& getEngine();
 
@@ -36,8 +43,10 @@ public:
 	int initAllegro(int flags);
 	int initAllegro(int flags, int resolution, bool windowed);
 
-	bool readyToClose();
-	void cleanAndFlip();
-
 	void destroyEngine();
+	
+	void showError(std::string msg);
+	
+	void prepareLoop();
+	bool updateFrame();
 };

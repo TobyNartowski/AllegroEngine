@@ -9,11 +9,7 @@ int main()
 	}
 
 	ENGINE_LOOP {
-		if (Engine::getEngine().readyToClose()) {
-			break;
-		}
 
-		Engine::getEngine().cleanAndFlip();
 	}
 
 	Engine::getEngine().destroyEngine();
