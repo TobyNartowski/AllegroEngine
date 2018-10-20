@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Drawer.hpp"
+
 #include <allegro5/allegro.h>
 #include <iostream>
 
@@ -23,11 +25,15 @@
 #define ENGINE_RES_LARGE_X	1024
 #define ENGINE_RES_LARGE_Y	768
 
+#define ENGINE_WINDOWED		true
+#define ENGINE_FULLSCREEN	false
+
 const float FPS = 60;
 
 class Engine {
 private:
 	Engine();
+	Drawer *drawer;
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
@@ -52,4 +58,5 @@ public:
 	bool updateFrame();
 
 	int getKey();
+	Drawer *getDrawerInstance();
 };

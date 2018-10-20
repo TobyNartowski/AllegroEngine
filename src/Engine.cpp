@@ -69,6 +69,8 @@ int Engine::initAllegro(int flags) {
 
 	Logger::getLogger().logSuccess("Allegro library initialized properly");
 
+	drawer = new Drawer(display);
+
 	return EXIT_SUCCESS;
 }
 
@@ -135,7 +137,6 @@ bool Engine::updateFrame() {
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
 		redrawFrame = false;
-		al_clear_to_color(al_map_rgb(16, 16, 16));
 		al_flip_display();
 	}
 
@@ -144,4 +145,8 @@ bool Engine::updateFrame() {
 
 int Engine::getKey() {
 	return keycodePressed;
+}
+
+Drawer *Engine::getDrawerInstance() {
+	return drawer;
 }
