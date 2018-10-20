@@ -1,14 +1,14 @@
 #include "Point.hpp"
 
-Point::Point(int x, int y) {
+Point::Point(float x, float y) {
 	this->x = x;
 	this->y = y;
 }
 
-int Point::getX() {
+float Point::getX() {
 	return x;
 }
 
-int Point::getY() {
+float Point::getY() {
 	return y;
 }

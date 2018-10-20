@@ -10,11 +10,14 @@ int Color::getR() {
 	return r;
 }
 
-
 int Color::getG() {
 	return g;
 }
 
 int Color::getB() {
 	return b;
+}
+
+ALLEGRO_COLOR Color::getAllegroColor() {
+	return al_map_rgb(r, g, b);
 }

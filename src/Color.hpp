@@ -1,5 +1,7 @@
 #pragma once
 
+#include <allegro5/allegro.h>
+
 class Color {
 private:
 	int r;
@@ -11,4 +13,6 @@ public:
 	int getR();
 	int getG();
 	int getB();
+
+	ALLEGRO_COLOR getAllegroColor();
 };

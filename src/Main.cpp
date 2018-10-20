@@ -16,7 +16,10 @@ int main()
 
 	ENGINE_LOOP {
 		drawer->fillBackground(new Color(16, 16, 16));
-		drawer->drawPoints(points, new Color(255, 255, 255));
+
+		drawer->drawRectangle(new Point(64, 64), new Point(256, 256), new Color(255, 255, 255), 10);
+		drawer->drawTriangle(new Point(512, 512), new Point(640, 640), new Point(480, 640), new Color(255, 0, 0), 10);
+		drawer->drawEllipse(new Point(512, 128), 32, 32, new Color(0, 255, 0), 10);
 	}
 
 	Engine::getEngine().destroyEngine();
