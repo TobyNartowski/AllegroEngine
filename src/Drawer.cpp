@@ -24,46 +24,65 @@ void Drawer::drawPoints(std::vector<Point*> points, Color *color) {
 
 void Drawer::drawRectangle(Point *upperLeftPoint, Point *lowerRightPoint, Color *color, float thickness) {
 	al_draw_rectangle(upperLeftPoint->getX(), upperLeftPoint->getY(), lowerRightPoint->getX(),
-			 lowerRightPoint->getY(), color->getAllegroColor(), thickness);
+			lowerRightPoint->getY(), color->getAllegroColor(), thickness);
 }
 
 void Drawer::drawTriangle(Point *upperPoint, Point *leftPoint, Point *rightPoint, Color *color, float thickness) {
 	al_draw_triangle(upperPoint->getX(), upperPoint->getY(), leftPoint->getX(), leftPoint->getY(),
-			 rightPoint->getX(), rightPoint->getY(), color->getAllegroColor(), thickness);
+			rightPoint->getX(), rightPoint->getY(), color->getAllegroColor(), thickness);
 }
 
 void Drawer::drawEllipse(Point *center, int radiusX, int radiusY, Color *color, float thickness) {
 	al_draw_ellipse(center->getX(), center->getY(), radiusX, radiusY, color->getAllegroColor(), thickness);
 }
 
-void Drawer::drawLineIncrementalAlgorithm(LineSegment *line, Color *color) {
-	//TODO: Chujowo dziala, do poprawy
-	Point *first = line->getFirstPoint();
-	Point *second = line->getSecondPoint();
-
-	float dx = second->getX() - first->getX();
-	float dy = second->getY() - first->getY();
-	float m = dy / dx;
-
-
-	if (std::abs(m) <= 1) {
-		float y = first->getY();
-		for (int x = first->getX(); x <= second->getX(); x++) {
-			al_draw_pixel(x, (int) (0.5 + y), color->getAllegroColor());
-			y += m;
-		}
-	} else {
-		float x = first->getX();
-		m = dx / dy;
-		for (int y = second->getY(); y <= first->getY(); y++) {
-			al_draw_pixel((int) (x + 0.5), y, color->getAllegroColor());
-			x += m;
-		}
-	}
-}
-
 void Drawer::drawMultipleLines(std::vector<LineSegment*> lines, Color *color) {
 	for (auto line : lines) {
-		drawLineIncrementalAlgorithm(line, color);
+		drawLine(line, color);
 	}
 }
+
+void Drawer::helpDrawLine(int x, int x2, int x3, int xi, int y, int y3, int yi, int flag, Color *color) {
+	int t1 = (y3 - x3) * 2;
+	int t2 = y3 * 2;
+	int t3 = t2 - x3;
+	while (x != x2) {
+		if (t3 >= 0) {
+			x += xi;
+			y += yi;
+			t3 += t1;
+		} else {
+			t3 += t2;
+			x += xi;
+		}
+
+		if (flag == 0) {
+			al_draw_pixel(x,y, color->getAllegroColor());
+		} else {
+			al_draw_pixel(y,x, color->getAllegroColor());
+		}
+	}
+}
+
+void Drawer::drawLine(LineSegment *line, Color *color) {
+	int x1 = line->getFirstPoint()->getX();
+	int y1 = line->getFirstPoint()->getY();
+	int x2 = line->getSecondPoint()->getX();
+	int y2 = line->getSecondPoint()->getY();	
+
+	int x3, y3, xi, yi;
+	int x = x1, y = y1;
+
+	xi = (x1 < x2) ? 1 : -1;
+	x3 = (x1 < x2) ? (x2 - x1) : (x1 - x2);
+	yi = (y1 < y2) ? 1 : -1;
+	y3 = (y1 < y2) ? (y2 - y1) : (y1 - y2);
+
+	al_draw_pixel(x,y, color->getAllegroColor());
+
+	if (x3 > y3) {
+		helpDrawLine(x, x2, x3, xi, y, y3, yi, 0, color);
+	} else {
+		helpDrawLine(y, y2, y3, yi, x, x3, xi, 1, color);
+	}
+}    

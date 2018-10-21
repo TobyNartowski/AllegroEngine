@@ -11,6 +11,8 @@
 class Drawer {
 private:
 	ALLEGRO_DISPLAY *display;
+
+	void helpDrawLine(int x, int x2, int x3, int xi, int y, int y3, int yi, int flag, Color *color);
 public:
 	Drawer(ALLEGRO_DISPLAY *display);
 
@@ -23,6 +25,6 @@ public:
 	void drawTriangle(Point *upperPoint, Point *leftPoint, Point *rightPoint, Color *color, float thickness);
 	void drawEllipse(Point *center, int radiusX, int radiusY, Color *color, float thickness);
 
-	void drawLineIncrementalAlgorithm(LineSegment *line, Color *color);
+	void drawLine(LineSegment *line, Color *color);
 	void drawMultipleLines(std::vector<LineSegment*> lines, Color *color);
 };

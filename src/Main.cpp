@@ -14,17 +14,19 @@ int main()
 
 	std::vector<LineSegment*> lines = {
 		new LineSegment(new Point(512, 512), new Point(512, 384)),
-		new LineSegment(new Point(512, 384), new Point(600, 355))
+		new LineSegment(new Point(512, 384), new Point(600, 355)),
+		new LineSegment(new Point(600, 355), new Point(125, 124))
 	};
 
 	ENGINE_LOOP {
 		drawer->fillBackground(new Color(16, 16, 16));
-	
+		
 		drawer->drawRectangle(new Point(64, 64), new Point(256, 256), new Color(255, 255, 255), 10);
 		drawer->drawTriangle(new Point(512, 600), new Point(640, 640), new Point(480, 640), new Color(255, 0, 0), 10);
 		drawer->drawEllipse(new Point(512, 128), 32, 32, new Color(0, 255, 0), 10);
-
 		drawer->drawMultipleLines(lines, new Color(255, 255, 255));
+
+		drawer->drawMultipleLines(lines, new Color(255, 255, 255));		
 	}
 
 	Engine::getEngine().destroyEngine();
