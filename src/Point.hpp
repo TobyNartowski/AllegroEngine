@@ -9,4 +9,6 @@ public:
 
 	float getX();
 	float getY();
+
+	void move(float dx, float dy);
 };

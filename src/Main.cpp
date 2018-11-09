@@ -12,21 +12,29 @@ int main()
 
 	Drawer *drawer = Engine::getEngine().getDrawerInstance();
 
-	std::vector<LineSegment*> lines = {
-		new LineSegment(new Point(512, 512), new Point(512, 384)),
-		new LineSegment(new Point(512, 384), new Point(600, 355)),
-		new LineSegment(new Point(600, 355), new Point(125, 124))
-	};
+	Point *point = new Point(128, 128);
 
 	ENGINE_LOOP {
-		drawer->fillBackground(new Color(16, 16, 16));
-		
-		drawer->drawRectangle(new Point(64, 64), new Point(256, 256), new Color(255, 255, 255), 10);
-		drawer->drawTriangle(new Point(512, 600), new Point(640, 640), new Point(480, 640), new Color(255, 0, 0), 10);
-		drawer->drawEllipse(new Point(512, 128), 32, 32, new Color(0, 255, 0), 10);
-		drawer->drawMultipleLines(lines, new Color(255, 255, 255));
+		float delta = 5.0;
+		bool *keys = Engine::getEngine().getKeys();
 
-		drawer->drawMultipleLines(lines, new Color(255, 255, 255));		
+		if (keys[KEY_UP] == true) {
+			point->move(0, -delta);
+		}
+		
+		if (keys[KEY_DOWN] == true) {
+			point->move(0, delta);
+		}
+		
+		if (keys[KEY_RIGHT] == true) {
+			point->move(delta, 0);
+		}
+		
+		if (keys[KEY_LEFT] == true) {
+			point->move(-delta, 0);
+		}
+
+		drawer->drawPoint(point, new Color(255, 255, 255));
 	}
 
 	Engine::getEngine().destroyEngine();

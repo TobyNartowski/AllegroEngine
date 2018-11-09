@@ -127,24 +127,57 @@ bool Engine::updateFrame() {
 
 	if (event.type == ALLEGRO_EVENT_TIMER) {
 		redrawFrame = true;
-	} else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE || getKey() == ALLEGRO_KEY_ESCAPE) {
+	} else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE || getKeys()[KEY_ESC] == true) {
 		return false;
 	} else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
-		keycodePressed = event.keyboard.keycode;
+		switch (event.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				key[KEY_UP] = true;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				key[KEY_DOWN] = true;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				key[KEY_RIGHT] = true;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				key[KEY_LEFT] = true;
+				break;
+			case ALLEGRO_KEY_ESCAPE:
+				key[KEY_ESC] = true;
+				break;
+		}
 	} else if (event.type == ALLEGRO_EVENT_KEY_UP) {
-		keycodePressed = -1;
+		switch (event.keyboard.keycode) {
+			case ALLEGRO_KEY_UP:
+				key[KEY_UP] = false;
+				break;
+			case ALLEGRO_KEY_DOWN:
+				key[KEY_DOWN] = false;
+				break;
+			case ALLEGRO_KEY_RIGHT:
+				key[KEY_RIGHT] = false;
+				break;
+			case ALLEGRO_KEY_LEFT:
+				key[KEY_LEFT] = false;
+				break;
+			case ALLEGRO_KEY_ESCAPE:
+				key[KEY_ESC] = false;
+				break;
+		}
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
 		redrawFrame = false;
 		al_flip_display();
+		al_clear_to_color(al_map_rgb(0, 0, 0));
 	}
 
 	return true;
 }
 
-int Engine::getKey() {
-	return keycodePressed;
+bool *Engine::getKeys() {
+	return key;
 }
 
 Drawer *Engine::getDrawerInstance() {

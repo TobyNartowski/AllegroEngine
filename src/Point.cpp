@@ -12,3 +12,8 @@ float Point::getX() {
 float Point::getY() {
 	return y;
 }
+
+void Point::move(float dx, float dy) {
+	x += dx;
+	y += dy;
+}

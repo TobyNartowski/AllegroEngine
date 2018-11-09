@@ -30,6 +30,10 @@
 
 const float FPS = 60;
 
+enum Keys {
+	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESC
+};
+
 class Engine {
 private:
 	Engine();
@@ -41,6 +45,7 @@ private:
 
 	bool redrawFrame = true;
 	int keycodePressed;
+	bool key[5] = {false, false, false, false, false};
 public:
 	static Engine& getEngine();
 
@@ -57,6 +62,6 @@ public:
 	void prepareLoop();
 	bool updateFrame();
 
-	int getKey();
+	bool *getKeys();
 	Drawer *getDrawerInstance();
 };

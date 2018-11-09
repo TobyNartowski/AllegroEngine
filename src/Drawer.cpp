@@ -57,9 +57,9 @@ void Drawer::helpDrawLine(int x, int x2, int x3, int xi, int y, int y3, int yi, 
 		}
 
 		if (flag == 0) {
-			al_draw_pixel(x,y, color->getAllegroColor());
+			al_draw_pixel(x, y, color->getAllegroColor());
 		} else {
-			al_draw_pixel(y,x, color->getAllegroColor());
+			al_draw_pixel(y, x, color->getAllegroColor());
 		}
 	}
 }
@@ -85,4 +85,4 @@ void Drawer::drawLine(LineSegment *line, Color *color) {
 	} else {
 		helpDrawLine(y, y2, y3, yi, x, x3, xi, 1, color);
 	}
-}    
+}
