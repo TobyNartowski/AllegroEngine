@@ -96,10 +96,10 @@ LineSegment *Viewport::clip(LineSegment *lineSegment) {
 		}
 
 		if (rcode == rcode1) {
-			line->getFirstPoint()->changePoint(x, y);
+			line->getFirstPoint()->change(x, y);
 			rcode1 = calculateRegionCode(line->getFirstPoint());
 		} else {
-			line->getSecondPoint()->changePoint(x, y);
+			line->getSecondPoint()->change(x, y);
 			rcode2 = calculateRegionCode(line->getSecondPoint());
 		}
 	} while ((rcode1 & rcode2) == 0 && (rcode1 | rcode2) != 0);
@@ -156,10 +156,10 @@ std::vector<LineSegment*> Viewport::clip(std::vector <LineSegment*> linesVector)
 			}
 
 			if (rcode == rcode1) {
-				line->getFirstPoint()->changePoint(x, y);
+				line->getFirstPoint()->change(x, y);
 				rcode1 = calculateRegionCode(line->getFirstPoint());
 			} else {
-				line->getSecondPoint()->changePoint(x, y);
+				line->getSecondPoint()->change(x, y);
 				rcode2 = calculateRegionCode(line->getSecondPoint());
 			}
 		} while ((rcode1 & rcode2) == 0 && (rcode1 | rcode2) != 0);

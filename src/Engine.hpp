@@ -34,6 +34,11 @@ enum Keys {
 	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESC
 };
 
+typedef struct {
+	float x, y;
+	bool isClicked;
+} MouseInfo;
+
 class Engine {
 private:
 	Engine();
@@ -46,6 +51,7 @@ private:
 	bool redrawFrame = true;
 	int keycodePressed;
 	bool key[5] = {false, false, false, false, false};
+	MouseInfo mouseInfo;
 public:
 	static Engine& getEngine();
 
@@ -63,5 +69,8 @@ public:
 	bool updateFrame();
 
 	bool *getKeys();
+	MouseInfo getMouse();
+			
+
 	Drawer *getDrawerInstance();
 };

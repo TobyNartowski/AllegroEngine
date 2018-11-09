@@ -105,6 +105,8 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 	al_register_event_source(eventQueue, al_get_timer_event_source(timer));
 	al_register_event_source(eventQueue, al_get_keyboard_event_source());
+	al_register_event_source(eventQueue, al_get_mouse_event_source());
+	al_hide_mouse_cursor(display);
 
 	Logger::getLogger().logSuccess("Display created properly");
 
@@ -167,6 +169,15 @@ bool Engine::updateFrame() {
 		}
 	}
 
+	if (event.type == ALLEGRO_EVENT_MOUSE_AXES || event.type == ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY) {
+		mouseInfo.x = event.mouse.x;
+		mouseInfo.y = event.mouse.y;
+	} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN) {
+		mouseInfo.isClicked = true;
+	} else if (event.type == ALLEGRO_EVENT_MOUSE_BUTTON_UP) {
+		mouseInfo.isClicked = false;
+	}
+
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
 		redrawFrame = false;
 		al_flip_display();
@@ -178,6 +189,10 @@ bool Engine::updateFrame() {
 
 bool *Engine::getKeys() {
 	return key;
+}
+
+MouseInfo Engine::getMouse() {
+	return mouseInfo;
 }
 
 Drawer *Engine::getDrawerInstance() {

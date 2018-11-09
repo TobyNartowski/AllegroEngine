@@ -18,7 +18,7 @@ void Point::move(float dx, float dy) {
 	y += dy;
 }
 
-void Point::changePoint(float x, float y)
+void Point::change(float x, float y)
 {
 	if (x != -1) {
 		this->x = x;

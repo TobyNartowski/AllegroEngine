@@ -11,5 +11,5 @@ public:
 	float getY();
 
 	void move(float dx, float dy);
-	void changePoint(float x, float y);
+	void change(float x, float y);
 };
