@@ -3,6 +3,7 @@
 #include "Point.hpp"
 #include "Color.hpp"
 #include "LineSegment.hpp"
+#include "Viewport.hpp"
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -27,4 +28,6 @@ public:
 
 	void drawLine(LineSegment *line, Color *color);
 	void drawMultipleLines(std::vector<LineSegment*> lines, Color *color);
+
+	void drawViewport(Viewport *viewport, Color *color);
 };

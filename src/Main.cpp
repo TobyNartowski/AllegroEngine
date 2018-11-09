@@ -1,5 +1,4 @@
 #include "Engine.hpp"
-#include "LineSegment.hpp"
 
 #include <iostream>
 #include <vector>
@@ -12,29 +11,36 @@ int main()
 
 	Drawer *drawer = Engine::getEngine().getDrawerInstance();
 
-	Point *point = new Point(128, 128);
+	Viewport *viewport = new Viewport(new Point(128, 128), new Point(400, 312));
+	std::vector<LineSegment*> lines = {
+		new LineSegment(new Point(60, 60), new Point(300, 300)),
+		new LineSegment(new Point(300, 300), new Point(100, 400)),
+		new LineSegment(new Point(100, 400), new Point(800, 500))
+	};
 
 	ENGINE_LOOP {
 		float delta = 5.0;
 		bool *keys = Engine::getEngine().getKeys();
 
 		if (keys[KEY_UP] == true) {
-			point->move(0, -delta);
+			viewport->move(0, -delta);
 		}
 		
 		if (keys[KEY_DOWN] == true) {
-			point->move(0, delta);
+			viewport->move(0, delta);
 		}
 		
 		if (keys[KEY_RIGHT] == true) {
-			point->move(delta, 0);
+			viewport->move(delta, 0);
 		}
 		
 		if (keys[KEY_LEFT] == true) {
-			point->move(-delta, 0);
+			viewport->move(-delta, 0);
 		}
 
-		drawer->drawPoint(point, new Color(255, 255, 255));
+		drawer->drawMultipleLines(viewport->clip(lines), new Color(255, 255, 255));
+
+		drawer->drawViewport(viewport, new Color(255, 0, 0));
 	}
 
 	Engine::getEngine().destroyEngine();

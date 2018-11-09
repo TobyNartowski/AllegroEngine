@@ -14,8 +14,13 @@ void LineSegment::logLineSegment() {
 }
 
 void LineSegment::changePoints(Point *first, Point *second) {
-	this->first = first;
-	this->second = second;
+	if (first != nullptr) {
+		this->first = first;
+	}
+
+	if (second != nullptr) {
+		this->second = second;
+	}
 }
 
 Point *LineSegment::getFirstPoint() {

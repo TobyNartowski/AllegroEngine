@@ -86,3 +86,7 @@ void Drawer::drawLine(LineSegment *line, Color *color) {
 		helpDrawLine(y, y2, y3, yi, x, x3, xi, 1, color);
 	}
 }
+
+void Drawer::drawViewport(Viewport *viewport, Color *color) {
+	drawRectangle(viewport->getUpperLeft(), viewport->getLowerRight(), color, 1.0);
+}
