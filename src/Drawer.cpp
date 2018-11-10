@@ -118,6 +118,20 @@ void Drawer::drawPlayer(Player *player) {
 	int x = player->getPosition()->getX();
 	int y = player->getPosition()->getY();
 	int r = player->getSize() / 2;
-	al_draw_pixel(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), al_map_rgb(255, 0, 0));
+
 	al_draw_filled_rectangle(x - r, y - r, x + r, y + r, al_map_rgb(255, 255, 255));
+}
+
+void Drawer::drawCrosshair(Player *player) {
+	al_draw_pixel(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), al_map_rgb(255, 0, 0));
+}
+
+void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
+	Point *center = boundingBox->getCenterPoint();
+	float width = boundingBox->getWidth();
+	float height = boundingBox->getHeight();
+	Point *upperLeft = new Point(center->getX() - (width / 2.0), center->getY() - (height / 2.0));
+	Point *lowerRight = new Point(center->getX() + (width / 2.0), center->getY() + (height / 2.0));
+
+	drawRectangle(upperLeft, lowerRight, boundingBox->getColor(), 1.0);
 }

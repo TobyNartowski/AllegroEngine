@@ -6,6 +6,7 @@
 #include "Viewport.hpp"
 #include "Circle.hpp"
 #include "Player.hpp"
+#include "BoundingBox.hpp"
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -35,4 +36,7 @@ public:
 	void drawViewport(Viewport *viewport, Color *color);
 
 	void drawPlayer(Player *player);
+	void drawCrosshair(Player *player);
+
+	void drawBoundingBox(BoundingBox *boundingBox);
 };

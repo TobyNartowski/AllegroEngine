@@ -18,6 +18,12 @@ int Color::getB() {
 	return b;
 }
 
+void Color::change(int r, int g, int b) {
+	this->r = r;
+	this->g = g;
+	this->b = b;
+}
+
 ALLEGRO_COLOR Color::getAllegroColor() {
 	return al_map_rgb(r, g, b);
 }

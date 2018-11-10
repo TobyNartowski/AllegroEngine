@@ -14,5 +14,7 @@ public:
 	int getG();
 	int getB();
 
+	void change(int r, int g, int b);
+
 	ALLEGRO_COLOR getAllegroColor();
 };
