@@ -8,6 +8,7 @@
 #include "Player.hpp"
 #include "BoundingBox.hpp"
 #include "Bullet.hpp"
+#include "Rectangle.hpp"
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -41,4 +42,7 @@ public:
 
 	void drawBoundingBox(BoundingBox *boundingBox);
 	void drawBullet(Bullet *bullet, Color *color);
+
+	void drawRectangle(Rectangle *rectangle);
+	void drawRectangle(std::vector<Rectangle*> rectangles);
 };

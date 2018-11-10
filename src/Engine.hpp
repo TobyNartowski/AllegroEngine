@@ -31,7 +31,7 @@
 const float FPS = 60;
 
 enum Keys {
-	KEY_W, KEY_S, KEY_A, KEY_D, KEY_ESC
+	KEY_W, KEY_S, KEY_A, KEY_D, KEY_ESC, KEY_P
 };
 
 typedef struct {
@@ -50,7 +50,7 @@ private:
 	ALLEGRO_TIMER *timer = NULL;
 
 	bool redrawFrame = true;
-	bool key[5] = {false, false, false, false, false};
+	bool key[6] = {false, false, false, false, false, false};
 	MouseInfo mouseInfo;
 public:
 	static Engine& getEngine();

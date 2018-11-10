@@ -119,7 +119,7 @@ void Drawer::drawPlayer(Player *player) {
 	int y = player->getPosition()->getY();
 	int r = player->getSize() / 2;
 
-	al_draw_filled_rectangle(x - r, y - r, x + r, y + r, al_map_rgb(255, 255, 255));
+	al_draw_filled_circle(x, y, r, al_map_rgb(255, 255, 255));
 }
 
 void Drawer::drawCrosshair(Player *player) {
@@ -138,4 +138,21 @@ void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
 
 void Drawer::drawBullet(Bullet *bullet, Color *color) {
 	drawPoint(bullet->getPosition(), color);
+}
+
+void Drawer::drawRectangle(Rectangle *rectangle) {
+	Point *center = rectangle->getCenterPoint();
+	float width = rectangle->getWidth();
+	float height = rectangle->getHeight();
+	Point *upperLeft = new Point(center->getX() - (width / 2.0), center->getY() - (height / 2.0));
+	Point *lowerRight = new Point(center->getX() + (width / 2.0), center->getY() + (height / 2.0));
+
+	drawRectangle(upperLeft, lowerRight, rectangle->getColor(), 0.0);
+
+}
+
+void Drawer::drawRectangle(std::vector<Rectangle*> rectangles) {
+	for (auto rect : rectangles) {
+		drawRectangle(rect);
+	}
 }

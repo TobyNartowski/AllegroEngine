@@ -4,6 +4,8 @@
 #include <fstream>
 #include <allegro5/allegro_native_dialog.h>
 
+bool drawBoundingBoxes = false;
+
 Engine::Engine() {
 	std::ifstream file(".banner");
 
@@ -152,6 +154,9 @@ bool Engine::updateFrame(Player *player) {
 			case ALLEGRO_KEY_ESCAPE:
 				key[KEY_ESC] = true;
 				break;
+			case ALLEGRO_KEY_P:
+				key[KEY_P] = true;
+				break;
 		}
 	} else if (event.type == ALLEGRO_EVENT_KEY_UP) {
 		switch (event.keyboard.keycode) {
@@ -170,6 +175,9 @@ bool Engine::updateFrame(Player *player) {
 			case ALLEGRO_KEY_ESCAPE:
 				key[KEY_ESC] = false;
 				break;
+			case ALLEGRO_KEY_P:
+				key[KEY_P] = false;
+				break;
 		}
 	}
 
@@ -183,13 +191,21 @@ bool Engine::updateFrame(Player *player) {
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
-		drawer->drawBoundingBox(bbox);
+		if (key[KEY_P] == true) {
+			drawBoundingBoxes = !drawBoundingBoxes;
+			key[KEY_P] = false;
+		}
+
+		if (drawBoundingBoxes) {
+			for (auto boundingBox : BoundingBox::objects) {
+				drawer->drawBoundingBox(boundingBox);
+			}
+		}
 
 		for (auto bullet : Bullet::bullets) {
 			Point *previousPosition = new Point(bullet->getPosition()->getX(), bullet->getPosition()->getY());
 			bullet->update();
 
-			drawer->drawBoundingBox(bullet->getBoundingBox());
 			if (bullet->getBoundingBox()->checkForCollisions()) {
 				bullet->getPosition()->change(previousPosition->getX(), previousPosition->getY());
 			} else {
