@@ -123,7 +123,7 @@ void Engine::prepareLoop() {
 	Logger::getLogger().logSuccess("Main loop started");
 }
 
-bool Engine::updateFrame() {
+bool Engine::updateFrame(Player *player) {
 	ALLEGRO_EVENT event;
 	al_wait_for_event(eventQueue, &event);
 
@@ -179,6 +179,8 @@ bool Engine::updateFrame() {
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
+		player->updatePosition();
+	
 		redrawFrame = false;
 		al_flip_display();
 		al_clear_to_color(al_map_rgb(0, 0, 0));

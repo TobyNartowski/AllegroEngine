@@ -5,8 +5,8 @@
 #include <allegro5/allegro.h>
 #include <iostream>
 
-#define ENGINE_LOOP	Engine::getEngine().prepareLoop();\
-			for (; Engine::getEngine().updateFrame();)
+#define ENGINE_LOOP(player)	Engine::getEngine().prepareLoop();\
+				for (; Engine::getEngine().updateFrame(player);)
 
 #define ENGINE_NONE		0x0
 #define ENGINE_MOUSE_INIT	0x1
@@ -65,7 +65,7 @@ public:
 	void showError(std::string msg);
 	
 	void prepareLoop();
-	bool updateFrame();
+	bool updateFrame(Player *player);
 
 	bool *getKeys();
 	MouseInfo getMouse();

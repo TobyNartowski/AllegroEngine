@@ -14,7 +14,7 @@ int main()
 	BoundingBox *bbox = new BoundingBox(new Point(128, 128), 64, 128);
 	BoundingBox *playerBbox = new BoundingBox(player->getPosition(), player->getSize(), player->getSize());
 
-	ENGINE_LOOP {	
+	ENGINE_LOOP(player) {	
 		drawer->drawPlayer(player);
 		drawer->drawCrosshair(player);
 
@@ -22,7 +22,6 @@ int main()
 		drawer->drawBoundingBox(playerBbox);
 		
 		playerBbox->checkForCollisions();
-		player->updatePosition();
 	}
 
 	Engine::getEngine().destroyEngine();

@@ -11,7 +11,7 @@ private:
 
 	void updateCrosshair();
 public: 
-	Player(Point *position, int size = 16, float speed = 3.0);
+	Player(Point *position, int size = 16, float speed = 5.0);
 
 	Point *getPosition();
 	Point *getCrosshairPosition();
