@@ -7,6 +7,7 @@
 #include "Circle.hpp"
 #include "Player.hpp"
 #include "BoundingBox.hpp"
+#include "Bullet.hpp"
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -39,4 +40,5 @@ public:
 	void drawCrosshair(Player *player);
 
 	void drawBoundingBox(BoundingBox *boundingBox);
+	void drawBullet(Bullet *bullet, Color *color);
 };

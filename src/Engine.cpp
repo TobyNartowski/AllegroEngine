@@ -179,6 +179,10 @@ bool Engine::updateFrame(Player *player) {
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
+		for (auto bullet : Bullet::bullets) {
+			bullet->update();
+			drawer->drawBullet(bullet, new Color(255, 255, 0));
+		}		
 		player->updatePosition();
 	
 		redrawFrame = false;

@@ -24,6 +24,9 @@ int Player::getSize() {
 void Player::updateCrosshair() {
 	MouseInfo mouse = Engine::getEngine().getMouse();
 
+	if (mouse.isClicked) {
+		new Bullet(position, crosshairPosition);
+	}
 	crosshairPosition->change(mouse.x, mouse.y);
 }
 

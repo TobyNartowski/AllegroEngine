@@ -123,7 +123,7 @@ void Drawer::drawPlayer(Player *player) {
 }
 
 void Drawer::drawCrosshair(Player *player) {
-	al_draw_pixel(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), al_map_rgb(255, 0, 0));
+	al_draw_circle(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), 3, al_map_rgb(255, 0, 0), 0.7);
 }
 
 void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
@@ -134,4 +134,8 @@ void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
 	Point *lowerRight = new Point(center->getX() + (width / 2.0), center->getY() + (height / 2.0));
 
 	drawRectangle(upperLeft, lowerRight, boundingBox->getColor(), 1.0);
+}
+
+void Drawer::drawBullet(Bullet *bullet, Color *color) {
+	drawPoint(bullet->getPosition(), color);
 }
