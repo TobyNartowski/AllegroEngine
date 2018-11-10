@@ -31,7 +31,7 @@
 const float FPS = 60;
 
 enum Keys {
-	KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESC
+	KEY_W, KEY_S, KEY_A, KEY_D, KEY_ESC
 };
 
 typedef struct {
@@ -49,7 +49,6 @@ private:
 	ALLEGRO_TIMER *timer = NULL;
 
 	bool redrawFrame = true;
-	int keycodePressed;
 	bool key[5] = {false, false, false, false, false};
 	MouseInfo mouseInfo;
 public:

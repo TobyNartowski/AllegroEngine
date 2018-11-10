@@ -133,17 +133,17 @@ bool Engine::updateFrame() {
 		return false;
 	} else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 		switch (event.keyboard.keycode) {
-			case ALLEGRO_KEY_UP:
-				key[KEY_UP] = true;
+			case ALLEGRO_KEY_W:
+				key[KEY_W] = true;
 				break;
-			case ALLEGRO_KEY_DOWN:
-				key[KEY_DOWN] = true;
+			case ALLEGRO_KEY_S:
+				key[KEY_S] = true;
 				break;
-			case ALLEGRO_KEY_RIGHT:
-				key[KEY_RIGHT] = true;
+			case ALLEGRO_KEY_D:
+				key[KEY_D] = true;
 				break;
-			case ALLEGRO_KEY_LEFT:
-				key[KEY_LEFT] = true;
+			case ALLEGRO_KEY_A:
+				key[KEY_A] = true;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
 				key[KEY_ESC] = true;
@@ -151,17 +151,17 @@ bool Engine::updateFrame() {
 		}
 	} else if (event.type == ALLEGRO_EVENT_KEY_UP) {
 		switch (event.keyboard.keycode) {
-			case ALLEGRO_KEY_UP:
-				key[KEY_UP] = false;
+			case ALLEGRO_KEY_W:
+				key[KEY_W] = false;
 				break;
-			case ALLEGRO_KEY_DOWN:
-				key[KEY_DOWN] = false;
+			case ALLEGRO_KEY_S:
+				key[KEY_S] = false;
 				break;
-			case ALLEGRO_KEY_RIGHT:
-				key[KEY_RIGHT] = false;
+			case ALLEGRO_KEY_D:
+				key[KEY_D] = false;
 				break;
-			case ALLEGRO_KEY_LEFT:
-				key[KEY_LEFT] = false;
+			case ALLEGRO_KEY_A:
+				key[KEY_A] = false;
 				break;
 			case ALLEGRO_KEY_ESCAPE:
 				key[KEY_ESC] = false;

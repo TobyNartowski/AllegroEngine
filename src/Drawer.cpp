@@ -23,17 +23,40 @@ void Drawer::drawPoints(std::vector<Point*> points, Color *color) {
 }
 
 void Drawer::drawRectangle(Point *upperLeftPoint, Point *lowerRightPoint, Color *color, float thickness) {
-	al_draw_rectangle(upperLeftPoint->getX(), upperLeftPoint->getY(), lowerRightPoint->getX(),
-			lowerRightPoint->getY(), color->getAllegroColor(), thickness);
+	if (thickness != 0.0) {
+		al_draw_rectangle(upperLeftPoint->getX(), upperLeftPoint->getY(), lowerRightPoint->getX(),
+				lowerRightPoint->getY(), color->getAllegroColor(), thickness);
+	} else {
+		al_draw_filled_rectangle(upperLeftPoint->getX(), upperLeftPoint->getY(), lowerRightPoint->getX(),
+				lowerRightPoint->getY(), color->getAllegroColor());
+
+	}
 }
 
 void Drawer::drawTriangle(Point *upperPoint, Point *leftPoint, Point *rightPoint, Color *color, float thickness) {
-	al_draw_triangle(upperPoint->getX(), upperPoint->getY(), leftPoint->getX(), leftPoint->getY(),
-			rightPoint->getX(), rightPoint->getY(), color->getAllegroColor(), thickness);
+	if (thickness != 0.0) {
+		al_draw_triangle(upperPoint->getX(), upperPoint->getY(), leftPoint->getX(), leftPoint->getY(),
+				rightPoint->getX(), rightPoint->getY(), color->getAllegroColor(), thickness);
+	} else {
+		al_draw_filled_triangle(upperPoint->getX(), upperPoint->getY(), leftPoint->getX(), leftPoint->getY(),
+				rightPoint->getX(), rightPoint->getY(), color->getAllegroColor());
+	}
 }
 
 void Drawer::drawEllipse(Point *center, int radiusX, int radiusY, Color *color, float thickness) {
-	al_draw_ellipse(center->getX(), center->getY(), radiusX, radiusY, color->getAllegroColor(), thickness);
+	if (thickness != 0.0) {
+		al_draw_ellipse(center->getX(), center->getY(), radiusX, radiusY, color->getAllegroColor(), thickness);
+	} else {
+		al_draw_filled_ellipse(center->getX(), center->getY(), radiusX, radiusY, color->getAllegroColor());
+	}
+}
+
+void Drawer::drawCircle(Circle *circle, Color *color, float thickness) {
+	if (thickness != 0.0) {
+		al_draw_circle(circle->getX(), circle->getY(), circle->getRadius(), color->getAllegroColor(), thickness);
+	} else {
+		al_draw_filled_circle(circle->getX(), circle->getY(), circle->getRadius(), color->getAllegroColor());
+	}
 }
 
 void Drawer::drawMultipleLines(std::vector<LineSegment*> lines, Color *color) {
@@ -89,4 +112,12 @@ void Drawer::drawLine(LineSegment *line, Color *color) {
 
 void Drawer::drawViewport(Viewport *viewport, Color *color) {
 	drawRectangle(viewport->getUpperLeft(), viewport->getLowerRight(), color, 1.0);
+}
+
+void Drawer::drawPlayer(Player *player) {
+	int x = player->getPosition()->getX();
+	int y = player->getPosition()->getY();
+	int r = player->getSize() / 2;
+	al_draw_pixel(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), al_map_rgb(255, 0, 0));
+	al_draw_filled_rectangle(x - r, y - r, x + r, y + r, al_map_rgb(255, 255, 255));
 }

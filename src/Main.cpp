@@ -10,20 +10,12 @@ int main()
 	}
 
 	Drawer *drawer = Engine::getEngine().getDrawerInstance();
+	Player *player = new Player(new Point(16, 16));
 
-	Point *point = new Point(128, 128);
-	std::vector<Point*> points;	
+	ENGINE_LOOP {	
+		drawer->drawPlayer(player);
 
-	ENGINE_LOOP {
-		MouseInfo mouse = Engine::getEngine().getMouse();
-		point->change(mouse.x, mouse.y);
-
-		if (mouse.isClicked) {
-			points.push_back(new Point(mouse.x, mouse.y));
-		}
-
-		drawer->drawPoints(points, new Color(255, 0, 0));
-		drawer->drawPoint(point, new Color(255, 255, 255));
+		player->updatePosition();
 	}
 
 	Engine::getEngine().destroyEngine();
