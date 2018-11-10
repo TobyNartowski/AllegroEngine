@@ -20,11 +20,11 @@ void Point::move(float dx, float dy) {
 
 void Point::change(float x, float y)
 {
-	if (x != -1) {
+	if (x != -1.0) {
 		this->x = x;
 	}
 
-	if (y != -1) {
+	if (y != -1.0) {
 		this->y = y;
 	}
 }
