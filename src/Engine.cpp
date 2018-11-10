@@ -87,14 +87,17 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 		case ENGINE_RES_SMALL:
 			display = al_create_display(ENGINE_RES_SMALL_X, ENGINE_RES_SMALL_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_SMALL_X) + "x" + std::to_string(ENGINE_RES_SMALL_Y) + " display");
+			bbox = new BoundingBox(new Point(ENGINE_RES_SMALL_X / 2.0, ENGINE_RES_SMALL_Y / 2.0), ENGINE_RES_SMALL_X - 16.0, ENGINE_RES_SMALL_Y - 16.0, true);
 			break;
 		case ENGINE_RES_MEDIUM:
 			display = al_create_display(ENGINE_RES_MEDIUM_X, ENGINE_RES_MEDIUM_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_MEDIUM_X) + "x" + std::to_string(ENGINE_RES_MEDIUM_Y) + " display");
+			bbox = new BoundingBox(new Point(ENGINE_RES_MEDIUM_X / 2.0, ENGINE_RES_MEDIUM_Y / 2.0), ENGINE_RES_MEDIUM_X - 16.0, ENGINE_RES_MEDIUM_Y - 16.0, true);
 			break;
 		case ENGINE_RES_LARGE:
 			display = al_create_display(ENGINE_RES_LARGE_X, ENGINE_RES_LARGE_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_LARGE_X) + "x" + std::to_string(ENGINE_RES_LARGE_Y) + " display");
+			bbox = new BoundingBox(new Point(ENGINE_RES_LARGE_X / 2.0, ENGINE_RES_LARGE_Y / 2.0), ENGINE_RES_LARGE_X - 16.0, ENGINE_RES_LARGE_Y - 16.0, true);
 			break;
 		default:
 			Logger::getLogger().logError("Unresolved display resolution");
@@ -109,6 +112,7 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 	al_hide_mouse_cursor(display);
 
 	Logger::getLogger().logSuccess("Display created properly");
+
 
 	return EXIT_SUCCESS;
 }
@@ -179,6 +183,8 @@ bool Engine::updateFrame(Player *player) {
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
+		drawer->drawBoundingBox(bbox); // TODO: Delete
+
 		for (auto bullet : Bullet::bullets) {
 			bullet->update();
 			drawer->drawBullet(bullet, new Color(255, 255, 0));

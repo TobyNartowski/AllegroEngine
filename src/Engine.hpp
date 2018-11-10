@@ -43,6 +43,7 @@ class Engine {
 private:
 	Engine();
 	Drawer *drawer;
+	BoundingBox *bbox;
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
@@ -69,7 +70,6 @@ public:
 
 	bool *getKeys();
 	MouseInfo getMouse();
-			
 
 	Drawer *getDrawerInstance();
 };
