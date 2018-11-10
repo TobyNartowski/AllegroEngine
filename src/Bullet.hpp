@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Point.hpp"
+#include "BoundingBox.hpp"
 
 #include <iostream>
 #include <vector>
@@ -11,6 +12,7 @@ private:
 	Point *direction;
 	Point *actual;
 	float ang;
+	BoundingBox *bbox;
 
 	float speed = 10.0;
 public:
@@ -19,5 +21,7 @@ public:
 	Bullet(Point *start, Point *direction);
 	float getSpeed();
 	Point *getPosition();
+	BoundingBox *getBoundingBox();
+
 	void update();
 };

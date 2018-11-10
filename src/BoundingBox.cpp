@@ -4,11 +4,11 @@
 
 std::vector<BoundingBox*> BoundingBox::objects;
 
-BoundingBox::BoundingBox(Point *center, float width, float height, bool inverted) {
+BoundingBox::BoundingBox(Point *center, float width, float height, enum Type type) {
 	this->center = center;
 	this->width = width;
 	this->height = height;
-	this->inverted = inverted;
+	this->type = type;
 	color = new Color(0, 255, 255);
 
 	objects.push_back(this);
@@ -30,8 +30,8 @@ Color *BoundingBox::getColor() {
 	return color;
 }
 
-bool BoundingBox::isInverted() {
-	return inverted;
+enum Type BoundingBox::getType() {
+	return type;
 }
 
 void BoundingBox::move(float dx, float dy) {
@@ -48,11 +48,19 @@ bool BoundingBox::checkForCollisions() {
 
 	for (auto boundingBox : objects) {
 		if (boundingBox != this) {
+			if ((boundingBox->getType() == BULLET && type == BULLET) || 
+				(boundingBox->getType() == BULLET && type == PLAYER) ||
+				(boundingBox->getType() == PLAYER && type == BULLET) ||
+				(boundingBox->getType() == BULLET && type == INVERTED) ||
+				(boundingBox->getType() == INVERTED && type == BULLET)) {
+				continue;
+			}
+
 			Point *b = new Point(boundingBox->getCenterPoint()->getX(), boundingBox->getCenterPoint()->getY());
 		 	collision = (std::abs(a->getX() - b->getX()) * 2.0 <= (width + boundingBox->getWidth())) &&
 		         	(std::abs(a->getY() - b->getY()) * 2.0 <= (height + boundingBox->getHeight()));
 
-			if (boundingBox->isInverted()) {
+			if (boundingBox->getType() == INVERTED) {
 				collision = !collision;
 			}
 

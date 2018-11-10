@@ -87,17 +87,17 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 		case ENGINE_RES_SMALL:
 			display = al_create_display(ENGINE_RES_SMALL_X, ENGINE_RES_SMALL_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_SMALL_X) + "x" + std::to_string(ENGINE_RES_SMALL_Y) + " display");
-			bbox = new BoundingBox(new Point(ENGINE_RES_SMALL_X / 2.0, ENGINE_RES_SMALL_Y / 2.0), ENGINE_RES_SMALL_X - 16.0, ENGINE_RES_SMALL_Y - 16.0, true);
+			bbox = new BoundingBox(new Point(ENGINE_RES_SMALL_X / 2.0, ENGINE_RES_SMALL_Y / 2.0), ENGINE_RES_SMALL_X - 16.0, ENGINE_RES_SMALL_Y - 16.0, INVERTED);
 			break;
 		case ENGINE_RES_MEDIUM:
 			display = al_create_display(ENGINE_RES_MEDIUM_X, ENGINE_RES_MEDIUM_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_MEDIUM_X) + "x" + std::to_string(ENGINE_RES_MEDIUM_Y) + " display");
-			bbox = new BoundingBox(new Point(ENGINE_RES_MEDIUM_X / 2.0, ENGINE_RES_MEDIUM_Y / 2.0), ENGINE_RES_MEDIUM_X - 16.0, ENGINE_RES_MEDIUM_Y - 16.0, true);
+			bbox = new BoundingBox(new Point(ENGINE_RES_MEDIUM_X / 2.0, ENGINE_RES_MEDIUM_Y / 2.0), ENGINE_RES_MEDIUM_X - 16.0, ENGINE_RES_MEDIUM_Y - 16.0, INVERTED);
 			break;
 		case ENGINE_RES_LARGE:
 			display = al_create_display(ENGINE_RES_LARGE_X, ENGINE_RES_LARGE_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_LARGE_X) + "x" + std::to_string(ENGINE_RES_LARGE_Y) + " display");
-			bbox = new BoundingBox(new Point(ENGINE_RES_LARGE_X / 2.0, ENGINE_RES_LARGE_Y / 2.0), ENGINE_RES_LARGE_X - 16.0, ENGINE_RES_LARGE_Y - 16.0, true);
+			bbox = new BoundingBox(new Point(ENGINE_RES_LARGE_X / 2.0, ENGINE_RES_LARGE_Y / 2.0), ENGINE_RES_LARGE_X - 16.0, ENGINE_RES_LARGE_Y - 16.0, INVERTED);
 			break;
 		default:
 			Logger::getLogger().logError("Unresolved display resolution");
@@ -183,11 +183,18 @@ bool Engine::updateFrame(Player *player) {
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
-		drawer->drawBoundingBox(bbox); // TODO: Delete
+		drawer->drawBoundingBox(bbox);
 
 		for (auto bullet : Bullet::bullets) {
+			Point *previousPosition = new Point(bullet->getPosition()->getX(), bullet->getPosition()->getY());
 			bullet->update();
-			drawer->drawBullet(bullet, new Color(255, 255, 0));
+
+			drawer->drawBoundingBox(bullet->getBoundingBox());
+			if (bullet->getBoundingBox()->checkForCollisions()) {
+				bullet->getPosition()->change(previousPosition->getX(), previousPosition->getY());
+			} else {
+				drawer->drawBullet(bullet, new Color(255, 255, 0));
+			}
 		}		
 
 		player->updatePosition();

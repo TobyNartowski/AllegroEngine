@@ -7,7 +7,7 @@ Player::Player(Point *position, int size, float speed) {
 	this->size = size;
 	this->speed = speed;
 	crosshairPosition = new Point(0, 0);
-	bbox = new BoundingBox(position, size, size);
+	bbox = new BoundingBox(position, size, size, PLAYER);
 	previousPosition = new Point(position->getX(), position->getY());
 }
 
@@ -32,6 +32,7 @@ void Player::updateCrosshair() {
 
 	if (mouse.isClicked) {
 		new Bullet(position, crosshairPosition);
+		
 	}
 	crosshairPosition->change(mouse.x, mouse.y);
 }
@@ -69,7 +70,6 @@ void Player::updatePosition() {
 			position->change(previousPosition->getX(), -1.0);
 		}
 	}
-
 
 	updateCrosshair();
 }
