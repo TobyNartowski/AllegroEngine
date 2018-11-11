@@ -54,7 +54,9 @@ bool BoundingBox::checkForCollisions() {
 				(boundingBox->getType() == BULLET && type == INVERTED) ||
 				(boundingBox->getType() == INVERTED && type == BULLET) ||
 				(boundingBox->getType() == NONE && type == ENEMY) ||
-				(boundingBox->getType() == ENEMY && type == NONE)) {
+				(boundingBox->getType() == ENEMY && type == NONE) || 
+				(boundingBox->getType() == INVERTED && type == ENEMY) ||
+				(boundingBox->getType() == ENEMY && type == INVERTED)) {
 				continue;
 			}
 

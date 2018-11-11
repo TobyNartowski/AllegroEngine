@@ -28,7 +28,7 @@ BoundingBox *Enemy::getBoundingBox() {
 }
 
 Color *Enemy::getColor() {
-	return new Color(255, -hp, 55);
+	return new Color(255, 0, 0);
 }
 
 bool Enemy::bulletCheck() {

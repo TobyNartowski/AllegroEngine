@@ -40,6 +40,13 @@ int Engine::initAllegro(int flags) {
 		return EXIT_FAILURE;
 	}
 
+	spawner = al_create_timer(2.0);
+	if (!spawner) {
+		Logger::getLogger().logError("Failed to create spawner");
+		showError("Failed to create spawner");
+		return EXIT_FAILURE;
+	}
+
 	eventQueue = al_create_event_queue();
 	if (!eventQueue) {
 		Logger::getLogger().logError("Failed to create event queue");
@@ -90,16 +97,22 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 			display = al_create_display(ENGINE_RES_SMALL_X, ENGINE_RES_SMALL_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_SMALL_X) + "x" + std::to_string(ENGINE_RES_SMALL_Y) + " display");
 			bbox = new BoundingBox(new Point(ENGINE_RES_SMALL_X / 2.0, ENGINE_RES_SMALL_Y / 2.0), ENGINE_RES_SMALL_X - 16.0, ENGINE_RES_SMALL_Y - 16.0, INVERTED);
+			x = ENGINE_RES_SMALL_X;
+			y = ENGINE_RES_SMALL_Y;
 			break;
 		case ENGINE_RES_MEDIUM:
 			display = al_create_display(ENGINE_RES_MEDIUM_X, ENGINE_RES_MEDIUM_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_MEDIUM_X) + "x" + std::to_string(ENGINE_RES_MEDIUM_Y) + " display");
 			bbox = new BoundingBox(new Point(ENGINE_RES_MEDIUM_X / 2.0, ENGINE_RES_MEDIUM_Y / 2.0), ENGINE_RES_MEDIUM_X - 16.0, ENGINE_RES_MEDIUM_Y - 16.0, INVERTED);
+			x = ENGINE_RES_MEDIUM_X;
+			y = ENGINE_RES_MEDIUM_Y;
 			break;
 		case ENGINE_RES_LARGE:
 			display = al_create_display(ENGINE_RES_LARGE_X, ENGINE_RES_LARGE_Y);
 			Logger::getLogger().logNormal("Created " + std::to_string(ENGINE_RES_LARGE_X) + "x" + std::to_string(ENGINE_RES_LARGE_Y) + " display");
 			bbox = new BoundingBox(new Point(ENGINE_RES_LARGE_X / 2.0, ENGINE_RES_LARGE_Y / 2.0), ENGINE_RES_LARGE_X - 16.0, ENGINE_RES_LARGE_Y - 16.0, INVERTED);
+			x = ENGINE_RES_LARGE_X;
+			y = ENGINE_RES_LARGE_Y;
 			break;
 		default:
 			Logger::getLogger().logError("Unresolved display resolution");
@@ -109,6 +122,7 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 	al_register_event_source(eventQueue, al_get_timer_event_source(timer));
+	al_register_event_source(eventQueue, al_get_timer_event_source(spawner));
 	al_register_event_source(eventQueue, al_get_keyboard_event_source());
 	al_register_event_source(eventQueue, al_get_mouse_event_source());
 	al_hide_mouse_cursor(display);
@@ -125,6 +139,7 @@ void Engine::showError(std::string msg) {
 
 void Engine::prepareLoop() {
 	al_start_timer(timer);
+	al_start_timer(spawner);
 	
 	Logger::getLogger().logSuccess("Main loop started");
 }
@@ -190,6 +205,30 @@ bool Engine::updateFrame(Player *player) {
 		mouseInfo.isClicked = false;
 	}
 
+	if (event.timer.source == spawner) {
+		int ch = rand() % 4;
+		int sx, sy;
+		switch (ch) {
+			case 0:
+				sx = -20.0;
+				sy = rand() % y;
+				break;
+			case 1:
+				sx = rand() % x;
+				sy = -20.0;
+				break;
+			case 2:
+				sx = x + 20.0;
+				sy = rand() % y;
+				break;
+			case 3:
+				sx = rand() % x;
+				sy = y + 20.0;
+				break;
+		}
+		new Enemy(new Point(sx, sy));
+	}
+
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
 		if (key[KEY_P] == true) {
 			drawBoundingBoxes = !drawBoundingBoxes;
@@ -221,16 +260,25 @@ bool Engine::updateFrame(Player *player) {
 			}
 		}
 
-		for (auto bullet : Bullet::bullets) {
-			Point *previousPosition = new Point(bullet->getPosition()->getX(), bullet->getPosition()->getY());
-			bullet->update();
+		for (auto it = Bullet::bullets.begin(); it != Bullet::bullets.end(); ) {
+			(*it)->update();
+			
+			if ((*it)->getBoundingBox()->checkForCollisions()) {
+				for (auto bbit = BoundingBox::objects.begin(); bbit != BoundingBox::objects.end(); ) {
+					if ((*bbit) == (*it)->getBoundingBox()) {
+						bbit = BoundingBox::objects.erase(bbit);
+						break;
+					} else {
+						++bbit;
+					}
+				}
 
-			if (bullet->getBoundingBox()->checkForCollisions()) {
-				bullet->getPosition()->change(previousPosition->getX(), previousPosition->getY());
+				it = Bullet::bullets.erase(it);
 			} else {
-				drawer->drawBullet(bullet, new Color(255, 255, 0));
+				drawer->drawBullet((*it), new Color(255, 255, 0));
+				++it;
 			}
-		}		
+		}
 
 		player->updatePosition();
 	

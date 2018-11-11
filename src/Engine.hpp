@@ -48,7 +48,9 @@ private:
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
+	ALLEGRO_TIMER *spawner = NULL;
 
+	int x, y;
 	bool redrawFrame = true;
 	bool key[6] = {false, false, false, false, false, false};
 	MouseInfo mouseInfo;

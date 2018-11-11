@@ -17,7 +17,7 @@ class Enemy {
 	Color *color;
 public:
 	static std::vector<Enemy*> enemies;
-	Enemy(Point *position, int size = 16, float speed = 3.0, int hp = 255);
+	Enemy(Point *position, int size = 16, float speed = 3.0, int hp = 60);
 
 	Point *getPosition();
 	int getSize();
