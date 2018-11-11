@@ -7,7 +7,7 @@
 #include <vector>
 
 enum Type {
-	NONE, INVERTED, BULLET, PLAYER
+	NONE, INVERTED, BULLET, PLAYER, ENEMY
 };
 
 

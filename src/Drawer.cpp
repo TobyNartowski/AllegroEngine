@@ -122,6 +122,15 @@ void Drawer::drawPlayer(Player *player) {
 	al_draw_filled_circle(x, y, r, al_map_rgb(255, 255, 255));
 }
 
+void Drawer::drawEnemy(Enemy *enemy) {
+	int x = enemy->getPosition()->getX();
+	int y = enemy->getPosition()->getY();
+	int r = enemy->getSize() / 2;
+
+	al_draw_filled_circle(x, y, r, enemy->getColor()->getAllegroColor());
+}
+
+
 void Drawer::drawCrosshair(Player *player) {
 	al_draw_circle(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), 3, al_map_rgb(255, 0, 0), 0.7);
 }

@@ -5,6 +5,8 @@
 
 int main()
 {
+	srand(time(NULL));
+
 	if (Engine::getEngine().initAllegro(ENGINE_KEYBOARD_INIT | ENGINE_MOUSE_INIT, ENGINE_RES_LARGE, ENGINE_WINDOWED)) {
 		return EXIT_FAILURE;
 	}
@@ -20,6 +22,8 @@ int main()
 		new Rectangle(new Point(480, 480), 120, 160, new Color(255, 255, 255)),
 		new Rectangle(new Point(750, 580), 104, 30, new Color(255, 255, 255))
 	};
+
+	new Enemy(new Point(600, 600));
 
 	ENGINE_LOOP(player) {	
 		drawer->drawPlayer(player);

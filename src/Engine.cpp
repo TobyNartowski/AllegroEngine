@@ -202,6 +202,25 @@ bool Engine::updateFrame(Player *player) {
 			}
 		}
 
+		for (auto it = Enemy::enemies.begin(); it != Enemy::enemies.end(); ) {
+			(*it)->updatePosition(player);
+			if (!(*it)->bulletCheck()) {
+				for (auto bbit = BoundingBox::objects.begin(); bbit != BoundingBox::objects.end(); ) {
+					if ((*bbit) == (*it)->getBoundingBox()) {
+						bbit = BoundingBox::objects.erase(bbit);
+						break;
+					} else {
+						++bbit;
+					}
+				}
+
+				it = Enemy::enemies.erase(it);
+			} else {
+				drawer->drawEnemy((*it));
+				++it;
+			}
+		}
+
 		for (auto bullet : Bullet::bullets) {
 			Point *previousPosition = new Point(bullet->getPosition()->getX(), bullet->getPosition()->getY());
 			bullet->update();

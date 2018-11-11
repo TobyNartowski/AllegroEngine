@@ -9,6 +9,7 @@
 #include "BoundingBox.hpp"
 #include "Bullet.hpp"
 #include "Rectangle.hpp"
+#include "Enemy.hpp"
 
 #include <allegro5/allegro.h>
 #include <iostream>
@@ -38,6 +39,7 @@ public:
 	void drawViewport(Viewport *viewport, Color *color);
 
 	void drawPlayer(Player *player);
+	void drawEnemy(Enemy *Enemy);
 	void drawCrosshair(Player *player);
 
 	void drawBoundingBox(BoundingBox *boundingBox);
