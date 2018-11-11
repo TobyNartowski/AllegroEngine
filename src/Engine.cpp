@@ -234,13 +234,6 @@ bool Engine::updateFrame(Player *player) {
 			drawBoundingBoxes = !drawBoundingBoxes;
 			key[KEY_P] = false;
 		}
-
-		if (drawBoundingBoxes) {
-			for (auto boundingBox : BoundingBox::objects) {
-				drawer->drawBoundingBox(boundingBox);
-			}
-		}
-
 		for (auto it = Enemy::enemies.begin(); it != Enemy::enemies.end(); ) {
 			(*it)->updatePosition(player);
 			if (!(*it)->bulletCheck()) {
@@ -281,7 +274,16 @@ bool Engine::updateFrame(Player *player) {
 		}
 
 		player->updatePosition();
-	
+		drawer->drawPlayer(player);
+		drawer->drawCrosshair(player);
+
+		if (drawBoundingBoxes) {
+			for (auto boundingBox : BoundingBox::objects) {
+				drawer->drawBoundingBox(boundingBox);
+			}
+		}
+
+
 		redrawFrame = false;
 		al_flip_display();
 		al_clear_to_color(al_map_rgb(0, 0, 0));

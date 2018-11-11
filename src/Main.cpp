@@ -26,9 +26,6 @@ int main()
 	new Enemy(new Point(600, 600));
 
 	ENGINE_LOOP(player) {	
-		drawer->drawPlayer(player);
-		drawer->drawCrosshair(player);
-
 		drawer->drawRectangle(rects);
 	}
 
