@@ -14,18 +14,19 @@ int main()
 	Drawer *drawer = Engine::getEngine().getDrawerInstance();
 	Player *player = new Player(new Point(16, 16));
 
+	Color *rectColor = new Color(192, 192, 192);
 	std::vector<Rectangle*> rects = {
-		new Rectangle(new Point(128, 128), 64, 128, new Color(255, 255, 255)),
-		new Rectangle(new Point(330, 160), 128, 32, new Color(255, 255, 255)),
-		new Rectangle(new Point(730, 280), 28, 240, new Color(255, 255, 255)),
-		new Rectangle(new Point(128, 640), 220, 100, new Color(255, 255, 255)),
-		new Rectangle(new Point(480, 480), 120, 160, new Color(255, 255, 255)),
-		new Rectangle(new Point(750, 580), 104, 30, new Color(255, 255, 255))
+		new Rectangle(new Point(128, 128), 64, 128, rectColor),
+		new Rectangle(new Point(330, 160), 128, 32, rectColor),
+		new Rectangle(new Point(730, 280), 28, 240, rectColor),
+		new Rectangle(new Point(128, 640), 220, 100, rectColor),
+		new Rectangle(new Point(480, 480), 120, 160, rectColor),
+		new Rectangle(new Point(750, 580), 104, 30, rectColor)
 	};
 
-	new Enemy(new Point(600, 600));
-
 	ENGINE_LOOP(player) {	
+		drawer->drawBackground();
+
 		drawer->drawRectangle(rects);
 	}
 

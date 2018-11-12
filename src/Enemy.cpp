@@ -1,6 +1,9 @@
 #include "Enemy.hpp"
+#include "Logger.hpp"
 
 #include <cmath>
+
+static bool messageShown = false;
 
 std::vector<Enemy*> Enemy::enemies;
 
@@ -12,7 +15,12 @@ Enemy::Enemy(Point *position, int size, float speed, int hp) {
 	bbox = new BoundingBox(position, size, size, ENEMY);
 
 	enemies.push_back(this);
-	color = new Color(255, 0, 0);
+
+	texture = al_load_bitmap(TEXTURE_PATH);
+	if (!texture && !messageShown) {
+		messageShown = true;
+		Logger::getLogger().logError("Failed to load ghost texture");
+	}
 }
 
 Point *Enemy::getPosition() {
@@ -27,8 +35,8 @@ BoundingBox *Enemy::getBoundingBox() {
 	return bbox;
 }
 
-Color *Enemy::getColor() {
-	return new Color(255, hp * 3, 0);
+ALLEGRO_BITMAP *Enemy::getBitmap() {
+	return texture;
 }
 
 bool Enemy::bulletCheck() {

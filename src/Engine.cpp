@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_image.h>
 
 bool drawBoundingBoxes = false;
 
@@ -30,6 +31,12 @@ int Engine::initAllegro(int flags) {
 	if (!al_init()) {
 		Logger::getLogger().logError("Failed to initialize Allegro");
 		showError("Failed to initialize Allegro");
+		return EXIT_FAILURE;
+	}
+
+	if (!al_init_image_addon()) {
+		Logger::getLogger().logError("Failed to initialize image addon");
+		showError("Failed to initialize image addon");
 		return EXIT_FAILURE;
 	}
 
@@ -78,8 +85,6 @@ int Engine::initAllegro(int flags) {
 
 	Logger::getLogger().logSuccess("Allegro library initialized properly");
 
-	drawer = new Drawer(display);
-
 	return EXIT_SUCCESS;
 }
 
@@ -120,6 +125,8 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 			return EXIT_FAILURE;
 	}
 
+	drawer = new Drawer(display, x, y);
+	
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 	al_register_event_source(eventQueue, al_get_timer_event_source(timer));
 	al_register_event_source(eventQueue, al_get_timer_event_source(spawner));
@@ -226,7 +233,7 @@ bool Engine::updateFrame(Player *player) {
 				sy = y + 20.0;
 				break;
 		}
-		new Enemy(new Point(sx, sy));
+		new Enemy(new Point(sx, sy), (rand() % 16) + 16, (rand() % 3) + 3, (rand() % 50) + 30);
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
@@ -268,7 +275,7 @@ bool Engine::updateFrame(Player *player) {
 
 				it = Bullet::bullets.erase(it);
 			} else {
-				drawer->drawBullet((*it), new Color(255, 255, 0));
+				drawer->drawBullet((*it), new Color(255, 255, 255));
 				++it;
 			}
 		}

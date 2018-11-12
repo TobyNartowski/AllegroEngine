@@ -5,8 +5,11 @@
 #include "Player.hpp"
 #include "Color.hpp"
 
+#define TEXTURE_PATH "resources/ghost.png"
+
 class Enemy {
 	Point *position;
+	ALLEGRO_BITMAP *texture;
 
 	int hp;
 	int size;
@@ -14,7 +17,6 @@ class Enemy {
 	float ang;
 
 	BoundingBox *bbox;
-	Color *color;
 public:
 	static std::vector<Enemy*> enemies;
 	Enemy(Point *position, int size = 16, float speed = 3.0, int hp = 60);
@@ -22,7 +24,7 @@ public:
 	Point *getPosition();
 	int getSize();
 	BoundingBox *getBoundingBox();
-	Color *getColor();
+	ALLEGRO_BITMAP *getBitmap();
 
 	bool bulletCheck();
 	void updatePosition(Player *player);

@@ -15,15 +15,20 @@
 #include <iostream>
 #include <vector>
 
+#define BACKGROUND_PATH "resources/bg.jpg"
+
 class Drawer {
 private:
 	ALLEGRO_DISPLAY *display;
+	ALLEGRO_BITMAP *background;
+	int width, height;
 
 	void helpDrawLine(int x, int x2, int x3, int xi, int y, int y3, int yi, int flag, Color *color);
 public:
-	Drawer(ALLEGRO_DISPLAY *display);
+	Drawer(ALLEGRO_DISPLAY *display, int width, int height);
 
 	void fillBackground(Color *color);
+	void drawBackground();
 
 	void drawPoint(Point *point, Color *color);
 	void drawPoints(std::vector<Point*> points, Color *color);

@@ -1,15 +1,26 @@
 #include "Drawer.hpp"
+#include "Logger.hpp"
 
 #include <allegro5/allegro_primitives.h>
 #include <cmath>
 
-Drawer::Drawer(ALLEGRO_DISPLAY *display)
-{
+Drawer::Drawer(ALLEGRO_DISPLAY *display, int width, int height) {
+	this->width = width;
+	this->height = height;
 	this->display = display;
+
+	background = al_load_bitmap(BACKGROUND_PATH);
+	if (!background) {
+		Logger::getLogger().logError("Failed to load background image");
+	}
 }
 
 void Drawer::fillBackground(Color *color) {
 	al_clear_to_color(color->getAllegroColor());
+}
+
+void Drawer::drawBackground() {
+	al_draw_scaled_bitmap(background, 0, 0, 1800, 1200, 0, 0, width, height, 0);
 }
 
 void Drawer::drawPoint(Point *point, Color *color) {
@@ -123,16 +134,16 @@ void Drawer::drawPlayer(Player *player) {
 }
 
 void Drawer::drawEnemy(Enemy *enemy) {
-	int x = enemy->getPosition()->getX();
-	int y = enemy->getPosition()->getY();
-	int r = enemy->getSize() / 2;
+	int r = enemy->getSize();
+	int x = enemy->getPosition()->getX() - (r / 2);
+	int y = enemy->getPosition()->getY() - (r / 2);
 
-	al_draw_filled_circle(x, y, r, enemy->getColor()->getAllegroColor());
+	al_draw_scaled_bitmap(enemy->getBitmap(), 0, 0, 52, 52, x, y, r, r, 0);
 }
 
 
 void Drawer::drawCrosshair(Player *player) {
-	al_draw_circle(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), 3, al_map_rgb(255, 0, 0), 0.7);
+	al_draw_circle(player->getCrosshairPosition()->getX(), player->getCrosshairPosition()->getY(), 3, al_map_rgb(255, 0, 0), 1.2);
 }
 
 void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
