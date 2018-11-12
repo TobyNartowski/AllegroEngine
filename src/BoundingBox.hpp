@@ -35,4 +35,5 @@ public:
 	void change(Point *center);
 
 	bool checkForCollisions();
+	bool checkForDamage();
 };

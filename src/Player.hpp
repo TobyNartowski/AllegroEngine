@@ -11,15 +11,20 @@ private:
 	int size;
 	float speed;
 	BoundingBox *bbox;
+	int hp, fullHp;
 
 	void updateCrosshair();
 public: 
-	Player(Point *position, int size = 16, float speed = 5.0);
+	Player(Point *position, int size = 16, float speed = 5.0, int hp = 100);
 
 	Point *getPosition();
 	Point *getCrosshairPosition();
+
 	int getSize();
 	BoundingBox *getBoundingBox();
+	int getHp();
+	int getFullHp();
+	int subtractHp(int value);
 
 	void updatePosition();
 };

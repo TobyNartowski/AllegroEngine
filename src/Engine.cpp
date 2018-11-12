@@ -6,6 +6,8 @@
 #include <allegro5/allegro_image.h>
 
 bool drawBoundingBoxes = false;
+int score = 0;
+bool gameOver = false;
 
 Engine::Engine() {
 	std::ifstream file(".banner");
@@ -38,6 +40,16 @@ int Engine::initAllegro(int flags) {
 		Logger::getLogger().logError("Failed to initialize image addon");
 		showError("Failed to initialize image addon");
 		return EXIT_FAILURE;
+	} else {
+		Logger::getLogger().logNormal("Image addon initialized");
+	}
+
+	if (!al_init_font_addon() || !al_init_ttf_addon()) {
+		Logger::getLogger().logError("Failed to initialize font addon");
+		showError("Failed to initialize font addon");
+		return EXIT_FAILURE;
+	} else {
+		Logger::getLogger().logNormal("Font addon intialized");
 	}
 
 	timer = al_create_timer(1.0 / FPS);
@@ -47,7 +59,7 @@ int Engine::initAllegro(int flags) {
 		return EXIT_FAILURE;
 	}
 
-	spawner = al_create_timer(2.0);
+	spawner = al_create_timer(1.1);
 	if (!spawner) {
 		Logger::getLogger().logError("Failed to create spawner");
 		showError("Failed to create spawner");
@@ -126,7 +138,7 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 	}
 
 	drawer = new Drawer(display, x, y);
-	
+
 	al_register_event_source(eventQueue, al_get_display_event_source(display));
 	al_register_event_source(eventQueue, al_get_timer_event_source(timer));
 	al_register_event_source(eventQueue, al_get_timer_event_source(spawner));
@@ -135,7 +147,6 @@ int Engine::initAllegro(int flags, int resolution, bool windowed) {
 	al_hide_mouse_cursor(display);
 
 	Logger::getLogger().logSuccess("Display created properly");
-
 
 	return EXIT_SUCCESS;
 }
@@ -233,7 +244,14 @@ bool Engine::updateFrame(Player *player) {
 				sy = y + 20.0;
 				break;
 		}
-		new Enemy(new Point(sx, sy), (rand() % 16) + 16, (rand() % 3) + 3, (rand() % 50) + 30);
+		new Enemy(new Point(sx, sy), (rand() % 16) + 26, (rand() % 3) + 3, (rand() % 50) + 30);
+	}
+
+	if (gameOver) {
+		drawer->drawGameOver(score);
+		al_flip_display();
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+		return true;
 	}
 
 	if (redrawFrame && al_is_event_queue_empty(eventQueue)) {
@@ -241,8 +259,29 @@ bool Engine::updateFrame(Player *player) {
 			drawBoundingBoxes = !drawBoundingBoxes;
 			key[KEY_P] = false;
 		}
+
 		for (auto it = Enemy::enemies.begin(); it != Enemy::enemies.end(); ) {
 			(*it)->updatePosition(player);
+			if ((*it)->getBoundingBox()->checkForDamage()) {
+				player->subtractHp((rand() % 5) + 10);
+
+				if (player->getHp() <= 0) {
+					gameOver = true;
+				}
+
+				for (auto bbit = BoundingBox::objects.begin(); bbit != BoundingBox::objects.end(); ) {
+					if ((*bbit) == (*it)->getBoundingBox()) {
+						bbit = BoundingBox::objects.erase(bbit);
+						break;
+					} else {
+						++bbit;
+					}
+				}
+
+				it = Enemy::enemies.erase(it);
+				continue;
+			}
+
 			if (!(*it)->bulletCheck()) {
 				for (auto bbit = BoundingBox::objects.begin(); bbit != BoundingBox::objects.end(); ) {
 					if ((*bbit) == (*it)->getBoundingBox()) {
@@ -254,6 +293,7 @@ bool Engine::updateFrame(Player *player) {
 				}
 
 				it = Enemy::enemies.erase(it);
+				score += 5;
 			} else {
 				drawer->drawEnemy((*it));
 				++it;
@@ -275,10 +315,13 @@ bool Engine::updateFrame(Player *player) {
 
 				it = Bullet::bullets.erase(it);
 			} else {
-				drawer->drawBullet((*it), new Color(255, 255, 255));
+				drawer->drawBullet((*it), new Color(255, 192, 0));
 				++it;
 			}
 		}
+
+		drawer->drawScore(score);
+		drawer->drawHp(player->getHp(), player->getFullHp());
 
 		player->updatePosition();
 		drawer->drawPlayer(player);
@@ -289,7 +332,6 @@ bool Engine::updateFrame(Player *player) {
 				drawer->drawBoundingBox(boundingBox);
 			}
 		}
-
 
 		redrawFrame = false;
 		al_flip_display();

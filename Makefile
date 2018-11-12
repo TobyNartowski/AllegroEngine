@@ -1,6 +1,6 @@
 CC         = g++
 FLAGS      = -Wall -std=c++11
-LDFLAGS    = -lallegro -lallegro_dialog -lallegro_primitives -lallegro_image
+LDFLAGS    = -lallegro -lallegro_dialog -lallegro_primitives -lallegro_image -lallegro_font -lallegro_ttf
 PROG_NAME  = Allegro_Engine
 
 SRC_DIR    = ./src

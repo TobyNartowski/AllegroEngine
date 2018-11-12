@@ -13,6 +13,8 @@ Drawer::Drawer(ALLEGRO_DISPLAY *display, int width, int height) {
 	if (!background) {
 		Logger::getLogger().logError("Failed to load background image");
 	}
+
+	font = al_load_ttf_font(FONT_PATH, 32, 0);
 }
 
 void Drawer::fillBackground(Color *color) {
@@ -138,7 +140,7 @@ void Drawer::drawEnemy(Enemy *enemy) {
 	int x = enemy->getPosition()->getX() - (r / 2);
 	int y = enemy->getPosition()->getY() - (r / 2);
 
-	al_draw_scaled_bitmap(enemy->getBitmap(), 0, 0, 52, 52, x, y, r, r, 0);
+	al_draw_scaled_bitmap(enemy->getBitmap(), 0, 0, 420, 420, x, y, r, r, 0);
 }
 
 
@@ -157,7 +159,9 @@ void Drawer::drawBoundingBox(BoundingBox *boundingBox) {
 }
 
 void Drawer::drawBullet(Bullet *bullet, Color *color) {
-	drawPoint(bullet->getPosition(), color);
+//	drawPoint(bullet->getPosition(), color);
+	drawRectangle(new Point(bullet->getPosition()->getX() - 1, bullet->getPosition()->getY() - 1),
+			new Point(bullet->getPosition()->getX() + 1, bullet->getPosition()->getY() + 1), color, 0.0);
 }
 
 void Drawer::drawRectangle(Rectangle *rectangle) {
@@ -175,4 +179,32 @@ void Drawer::drawRectangle(std::vector<Rectangle*> rectangles) {
 	for (auto rect : rectangles) {
 		drawRectangle(rect);
 	}
+}
+
+void Drawer::drawScore(int score) {
+	al_draw_text(font, al_map_rgb(255, 255, 255), 32, 32, ALLEGRO_ALIGN_LEFT, ("Score: " + std::to_string(score)).c_str());
+}
+
+void Drawer::drawHp(int hp, int fullHp) {
+	Color *color;
+	if (hp <= 25) {
+		color = new Color(255, 0, 0);
+	} else if (hp <= 50) {
+		color = new Color(255, 192, 0);
+	} else if (hp <= 75) {
+		color = new Color(192, 255, 0);
+	} else {
+		color = new Color(0, 255, 0);
+	}
+
+	drawRectangle(new Point(width - 148, 32), new Point(width - 48, 64), new Color(255, 255, 255), 1.0);
+	drawRectangle(new Point(width - 148, 33), new Point((width - 48) - (fullHp - hp), 62), color, 0.0);
+}
+
+void Drawer::drawGameOver(int score) {
+	std::string first = "Game Over";
+	std::string second = "Your score: " + std::to_string(score);
+
+	al_draw_text(font, al_map_rgb(255, 255, 255), width / 2 - (first.length() / 2), height / 2 - 64, ALLEGRO_ALIGN_CENTER, first.c_str());
+	al_draw_text(font, al_map_rgb(255, 255, 255), width / 2 - (second.length() / 2), height / 2 - 24, ALLEGRO_ALIGN_CENTER, second.c_str());
 }

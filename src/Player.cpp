@@ -2,10 +2,12 @@
 
 #include "Engine.hpp"
 
-Player::Player(Point *position, int size, float speed) {
+Player::Player(Point *position, int size, float speed, int hp) {
 	this->position = position;
 	this->size = size;
 	this->speed = speed;
+	this->hp = hp;
+	this->fullHp = hp;
 	crosshairPosition = new Point(0, 0);
 	bbox = new BoundingBox(position, size, size, PLAYER);
 	previousPosition = new Point(position->getX(), position->getY());
@@ -25,6 +27,19 @@ int Player::getSize() {
 
 BoundingBox *Player::getBoundingBox() {
 	return bbox;
+}
+
+int Player::getHp() {
+	return hp;
+}
+
+int Player::getFullHp() {
+	return fullHp;
+}
+
+int Player::subtractHp(int value) {
+	hp -= value;
+	return hp;
 }
 
 void Player::updateCrosshair() {

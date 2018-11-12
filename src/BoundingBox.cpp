@@ -82,3 +82,33 @@ bool BoundingBox::checkForCollisions() {
 	return false;
 }
 
+bool BoundingBox::checkForDamage() {
+	Point *a = new Point(center->getX(), center->getY());
+	bool collision;
+
+	if (type != ENEMY) {
+		return false;
+	}
+
+	for (auto boundingBox : objects) {
+		if (boundingBox->getType() != PLAYER) {
+			continue;
+		}
+
+		Point *b = new Point(boundingBox->getCenterPoint()->getX(), boundingBox->getCenterPoint()->getY());
+	 	collision = (std::abs(a->getX() - b->getX()) * 2.0 <= (width + boundingBox->getWidth())) &&
+	         	(std::abs(a->getY() - b->getY()) * 2.0 <= (height + boundingBox->getHeight()));
+
+		if (collision) {
+			color->change(255, 0, 0);
+			boundingBox->getColor()->change(255, 0, 0);
+			return true;
+		} else {
+			boundingBox->getColor()->change(0, 255, 255);
+		}
+	}
+
+	color->change(0, 255, 255);
+	return false;
+}
+

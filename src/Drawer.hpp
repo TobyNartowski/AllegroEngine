@@ -12,15 +12,20 @@
 #include "Enemy.hpp"
 
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+
 #include <iostream>
 #include <vector>
 
 #define BACKGROUND_PATH "resources/bg.jpg"
+#define FONT_PATH "resources/font.ttf"
 
 class Drawer {
 private:
 	ALLEGRO_DISPLAY *display;
 	ALLEGRO_BITMAP *background;
+	ALLEGRO_FONT *font;
 	int width, height;
 
 	void helpDrawLine(int x, int x2, int x3, int xi, int y, int y3, int yi, int flag, Color *color);
@@ -52,4 +57,8 @@ public:
 
 	void drawRectangle(Rectangle *rectangle);
 	void drawRectangle(std::vector<Rectangle*> rectangles);
+
+	void drawScore(int score);
+	void drawHp(int hp, int fullHp);
+	void drawGameOver(int score);
 };
